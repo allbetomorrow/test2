@@ -71,11 +71,6 @@ export default function Login() {
       client.setQueryData('me', result)
     }
   })
-  useEffect(() => {
-    if (data) {
-      router.push('/')
-    }
-  }, [data, router])
   return (
     <Wrapper>
       <div className="flex h-full items-center">
@@ -92,6 +87,7 @@ export default function Login() {
             onSubmit={async (values, { setErrors }) => {
               try {
                 await mutateAsync(values)
+                router.push('/')
               } catch (err) {
                 if (err instanceof AxiosError) {
                   setErrors(err?.response?.data)

@@ -5,10 +5,10 @@ import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
   if (!request.cookies.get('qid')) {
-    return NextResponse.rewrite(new URL('login', request.url))
+    return NextResponse.redirect(new URL('/login', request.url), 307)
   }
 }
 
 export const config = {
-  matcher: ['/', '/:slug'],
+  matcher: '/'
 }
