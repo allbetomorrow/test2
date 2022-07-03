@@ -1,15 +1,26 @@
+import axios from "axios"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { isServer } from "../utils/isServer"
+import { sectionSchema } from "../utils/yupSchemas"
+
 import Section from "./section"
 
 interface SectionsLayoutProps {
   menu: boolean,
   handleMenu: () => void
 }
+type Section = {
+  id: number
+  url: string
+  title: string
+}
 
 const SectionsLayout = (props: SectionsLayoutProps) => {
-
+  const { data: sections } = useQuery('sections', async () => {
+    const res = await axios.get('/api/sections', { withCredentials: true })
+    return res.data as Section[]
+  })
 
   return (
     <div
@@ -27,7 +38,7 @@ const SectionsLayout = (props: SectionsLayoutProps) => {
         </svg>
       </button>
 
-      {/* {sections && !isServer
+      {sections && !isServer
         ?
         <div className="flex flex-col items-center">
           {sections.map(sec => <Section key={sec.id} section={sec} handleMenu={props.handleMenu} />)}
@@ -35,7 +46,7 @@ const SectionsLayout = (props: SectionsLayoutProps) => {
         :
         <div className="text-2xl duration-200 pt-1 text-light-sec dark:text-dark-sec">Loading...</div>
 
-      } */}
+      }
 
     </div>
   )

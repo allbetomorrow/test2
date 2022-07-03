@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
+import { useQuery } from "react-query";
+
+import { InferType } from "yup";
+import { sectionSchema } from "../utils/yupSchemas";
 
 interface SectionProps {
-  // section: Section
+  section: Section
   handleMenu: () => void
 }
 
-const Section = () => {
+const Section = ({ section, handleMenu }: SectionProps) => {
 
 
   return (
