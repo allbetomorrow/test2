@@ -1,12 +1,11 @@
 import React from "react";
 import { Formik, Form, useField } from 'formik';
-import Link from "next/link";
 import { useRouter } from "next/router";
 import Wrapper from "../components/wrapper";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from 'react-query'
-import { loginSchema, userSchema } from "../utils/yupSchemas";
-
+import { toFormikValidationSchema } from '../utils/zodAdapter'
+import { loginSchema, userSchema } from '../utils/zod'
 
 interface ButtonProps {
   isLoading?: boolean
@@ -60,12 +59,13 @@ const MyTextInput = ({ label, ...props }: MyTextInputProps) => {
   );
 };
 
+
 export default function Login() {
   const router = useRouter()
   const client = useQueryClient()
   const { mutateAsync } = useMutation(async (data: { username: string, password: string }) => {
     const res = await axios.post('/api/login', data)
-    return await userSchema.validate(res.data)
+    return userSchema.parse(res.data)
   }, {
     onSuccess: (result) => {
       client.setQueryData('me', result)
@@ -83,7 +83,7 @@ export default function Login() {
               username: '',
               password: ''
             }}
-            validationSchema={loginSchema}
+            validationSchema={toFormikValidationSchema(loginSchema)}
             onSubmit={async (values, { setErrors }) => {
               try {
                 await mutateAsync(values)
@@ -103,10 +103,6 @@ export default function Login() {
                 <MyTextInput name="username" label="Username" type="text" />
                 <MyTextInput name="password" label="Password" type="password" />
                 <Button isLoading={isSubmitting} text="Sign in" type="submit" />
-
-                <Link href='#'>
-                  <a className="mt-4 text-sm text-purple-600 font-medium hover:underline focus:outline-none">Forgot password?</a>
-                </Link>
               </Form>
             )}
           </Formik>
