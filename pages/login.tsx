@@ -3,7 +3,6 @@ import { Formik, Form, useField } from 'formik';
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Wrapper from "../components/wrapper";
-import LightDarkMode from "../components/light-DarkMode";
 import axios, { AxiosError } from "axios";
 import { useMutation, useQueryClient } from 'react-query'
 import { loginSchema, userSchema } from "../utils/yupSchemas";
@@ -76,7 +75,6 @@ export default function Login() {
     <Wrapper>
       <div className="flex h-full items-center">
         <div className="absolute top-3 right-3">
-          <LightDarkMode />
         </div>
         <div className="flex flex-col items-center p-4 w-80 mx-auto border dark:bg-white border-purple-200 rounded-3xl shadow-lg">
           <h1 className="text-2xl font-semibold  text-gray-900">Welcome back!</h1>

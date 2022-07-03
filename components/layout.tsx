@@ -5,6 +5,8 @@ import Head from 'next/head'
 import LoadingProxy from '../components/loadingProxy'
 import { useRouter } from 'next/router'
 import { useQueryClient, useQuery } from 'react-query'
+import { userSchema } from '../utils/yupSchemas'
+import axios from 'axios'
 
 type LayoutProps = {
   children: ReactNode
@@ -12,8 +14,23 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter()
-  const queryClient = useQueryClient()
 
+  const { data, isLoading } = useQuery('me', async () => {
+    const res = await axios.get('/api/user', { withCredentials: true })
+    return userSchema.validate(res.data)
+  })
+
+  useEffect(() => {
+    if (!isLoading && !data) {
+      router.replace('/login')
+    }
+  }, [isLoading, data, router])
+
+  if (isLoading || !data) {
+    return <Wrapper>
+      <LoadingProxy />
+    </Wrapper>
+  }
 
   return (
     <Wrapper>

@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import LightDarkMode from "./light-DarkMode"
 import SectionsLayout from "./sectionsLayout"
 
 const SideBar = () => {
@@ -17,7 +16,6 @@ const SideBar = () => {
           </svg>
           <div className="text-3xl ml-2 dark:text-dark-sec">Menu</div>
         </button>
-        <LightDarkMode />
       </div>
       <SectionsLayout menu={menu} handleMenu={handleMenu} />
     </div>

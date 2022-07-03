@@ -1,5 +1,4 @@
 import React from "react";
-import LightDarkMode from "./light-DarkMode";
 
 export default function LoadingProxy() {
   return (
