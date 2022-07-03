@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, useField } from 'formik';
 import { useRouter } from "next/router";
 import Wrapper from "../components/wrapper";
@@ -63,15 +63,19 @@ const MyTextInput = ({ label, ...props }: MyTextInputProps) => {
 export default function Login() {
   const router = useRouter()
   const client = useQueryClient()
-  const { mutateAsync } = useMutation(async (data: { username: string, password: string }) => {
+  const { mutateAsync, data } = useMutation(async (data: { username: string, password: string }) => {
     const res = await axios.post('/api/login', data)
     return userSchema.parse(res.data)
   }, {
     onSuccess: (result) => {
       client.setQueryData('me', result)
-      router.push("/")
     }
   })
+  useEffect(() => {
+    if (data) {
+      router.push('/')
+    }
+  }, [data, router])
   return (
     <Wrapper>
       <div className="flex h-full items-center">
