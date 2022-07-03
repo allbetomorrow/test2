@@ -1,9 +1,11 @@
 import { withIronSessionApiRoute } from "iron-session/next"
 import { getUser } from "../../data/users";
 import { config } from "../../utils/sessionConfig";
+import { sleep } from "../../utils/sleep";
 
 export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
+    await sleep(3000)
     const user = getUser(req.body.username)
     if (user) {
       const { password, ...rest } = user
