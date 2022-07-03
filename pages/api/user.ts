@@ -5,7 +5,7 @@ import { sleep } from "../../utils/sleep";
 
 export default withIronSessionApiRoute(
   async function userRoute(req, res) {
-    await sleep(3000)
+    // await sleep(3000)
     const user = req.session.user
     if (user) {
       res.send(req.session.user)

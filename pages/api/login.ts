@@ -5,7 +5,7 @@ import { sleep } from "../../utils/sleep";
 
 export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
-    await sleep(3000)
+    // await sleep(3000)
     const user = getUser(req.body.username)
     if (user) {
       const { password, ...rest } = user
