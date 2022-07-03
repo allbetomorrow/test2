@@ -17,6 +17,9 @@ module.exports = {
           "th": "#6d28d9",
         }
       },
+      transitionProperty: {
+        'darkMode': 'transform, opacity'
+      }
     },
   },
   plugins: [],

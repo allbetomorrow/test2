@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 
 interface SectionProps {
-  section: Section
+  // section: Section
   handleMenu: () => void
 }
 
-const Section = ({ section, handleMenu }: SectionProps) => {
+const Section = () => {
 
 
   return (

@@ -1,7 +1,6 @@
 import React from "react";
 import Task from "./task";
 import { useRouter } from "next/router";
-import { getTasks } from "../utils/swrHooks";
 import { useQuery } from "react-query";
 
 

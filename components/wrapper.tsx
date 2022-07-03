@@ -6,7 +6,7 @@ interface Wrapper {
 
 export default function Wrapper({ children }: Wrapper) {
   return (
-    <div className="h-full relative dark:bg-dark-main overflow-x-auto">
+    <div className="h-screen relative dark:bg-dark-main overflow-x-auto">
       {children}
     </div>
   )

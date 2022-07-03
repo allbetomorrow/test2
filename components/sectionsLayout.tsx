@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { isServer } from "../utils/isServer"
-import { getSections } from "../utils/swrHooks"
 import Section from "./section"
 
 interface SectionsLayoutProps {
@@ -10,7 +9,7 @@ interface SectionsLayoutProps {
 }
 
 const SectionsLayout = (props: SectionsLayoutProps) => {
-  const { data: sections } = useQuery('sections', getSections)
+
 
   return (
     <div
@@ -28,7 +27,7 @@ const SectionsLayout = (props: SectionsLayoutProps) => {
         </svg>
       </button>
 
-      {sections && !isServer
+      {/* {sections && !isServer
         ?
         <div className="flex flex-col items-center">
           {sections.map(sec => <Section key={sec.id} section={sec} handleMenu={props.handleMenu} />)}
@@ -36,7 +35,7 @@ const SectionsLayout = (props: SectionsLayoutProps) => {
         :
         <div className="text-2xl duration-200 pt-1 text-light-sec dark:text-dark-sec">Loading...</div>
 
-      }
+      } */}
 
     </div>
   )
