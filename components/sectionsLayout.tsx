@@ -2,7 +2,7 @@ import axios from "axios"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { isServer } from "../utils/isServer"
-import { sectionSchema } from "../utils/yupSchemas"
+
 
 import Section from "./section"
 

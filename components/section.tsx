@@ -1,9 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
-import { useQuery } from "react-query";
-
-import { InferType } from "yup";
-import { sectionSchema } from "../utils/yupSchemas";
 
 interface SectionProps {
   section: Section

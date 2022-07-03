@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { justSections } from "../../data/sections";
 import { getSectionTasks } from "../../data/sections";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

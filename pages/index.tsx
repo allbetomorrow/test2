@@ -1,10 +1,5 @@
-import axios from 'axios'
-import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
-import { useQuery } from 'react-query'
 import Layout from '../components/layout'
-import { userSchema } from '../utils/yupSchemas'
 import type { NextPageWithLayout } from './_app'
 
 

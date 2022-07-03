@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { isServer } from "../utils/isServer";
 import useIsomorphicLayoutEffect from "../utils/useIsomorphicLayoutEffect";
 
 const LightDarkMode = () => {

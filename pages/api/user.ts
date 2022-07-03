@@ -1,5 +1,5 @@
 import { withIronSessionApiRoute } from "iron-session/next";
-import { sleep } from "../../utils/sleep";
+
 import { config } from "../../utils/sessionConfig";
 
 export default withIronSessionApiRoute(

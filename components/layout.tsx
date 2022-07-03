@@ -1,10 +1,10 @@
-import { ReactNode, useEffect, useLayoutEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import SideBar from './sideBar'
 import Wrapper from './wrapper'
 import Head from 'next/head'
 import LoadingProxy from '../components/loadingProxy'
 import { useRouter } from 'next/router'
-import { useQueryClient, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import { userSchema } from '../utils/yupSchemas'
 import axios from 'axios'
 
