@@ -1,8 +1,9 @@
 import React from "react";
 import Task from "./task";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import axios from "axios";
+import { isServer } from "../utils/isServer";
 
 
 const TaskLayout = () => {
@@ -14,7 +15,8 @@ const TaskLayout = () => {
       return res.data as Task[]
     }
   })
-
+  const client = useQueryClient()
+  console.log(client)
   if (!tasks) {
     return <div>Loading...</div>
   }
@@ -25,7 +27,6 @@ const TaskLayout = () => {
       {tasks.map(task => <Task key={task.id} task={task} />)}
     </div>
   )
-  return <div>Task</div>
 }
 
 export default TaskLayout

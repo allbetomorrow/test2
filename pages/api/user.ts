@@ -1,18 +1,17 @@
-import { withIronSessionApiRoute } from "iron-session/next";
-
-import { config } from "../../utils/sessionConfig";
+import { NextApiRequest, NextApiResponse } from "next";
 import { sleep } from "../../utils/sleep";
+import sessionMiddleware from '../../utils/sessionMiddleware'
+import { getUser } from '../../data/users'
 
-export default withIronSessionApiRoute(
-  async function userRoute(req, res) {
-    // await sleep(3000)
-    const user = req.session.user
-    if (user) {
-      res.send(req.session.user)
-    } else {
-      res.status(404).json({ error: "wrong Cookie" })
-    }
 
-  },
-  config
-);
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await sessionMiddleware(req, res)
+  console.log(req.session)
+  const user = getUser(req.session.userId)
+  if (user) {
+    const { password, ...rest } = user
+    res.send(rest)
+  } else {
+    res.status(404).json({ password: 'Wrong password or user doesn`t exist' })
+  }
+}

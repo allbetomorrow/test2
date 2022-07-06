@@ -20,11 +20,11 @@ export default function Layout({ children }: LayoutProps) {
     return userSchema.parse(res.data)
   })
 
-  useEffect(() => {
-    if (!isLoading && !data) {
-      router.replace('/login')
-    }
-  }, [isLoading, data, router])
+
+  if (!isLoading && !data) {
+    router.replace('/login')
+  }
+
 
   if (isLoading || !data) {
     return <Wrapper>
@@ -35,7 +35,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <Wrapper>
       <Head>
-        <title>Booknotes</title>
+        <title>Notes</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <SideBar />

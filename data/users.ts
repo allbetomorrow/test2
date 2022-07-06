@@ -23,9 +23,15 @@ export interface User {
   password: string
 }
 
-export const getUser = (username: string) => {
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].username === username) return users[i]
+export const getUser = (user: string | number) => {
+  if (typeof user == "string") {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].username === user) return users[i]
+    }
+  } else if (typeof user == "number") {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].id === user) return users[i]
+    }
   }
   return null
 }
