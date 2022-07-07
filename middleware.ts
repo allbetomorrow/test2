@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!request.cookies.get('qid')) {
-    return NextResponse.rewrite(new URL('/welcome', request.url))
+    return NextResponse.redirect(new URL('/welcome', request.url), 307)
   }
 }
 

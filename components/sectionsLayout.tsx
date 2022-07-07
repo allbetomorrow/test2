@@ -2,19 +2,13 @@ import axios from "axios"
 import React, { useState } from "react"
 import { useQuery } from "react-query"
 import { isServer } from "../utils/isServer"
-
-
 import Section from "./section"
 
 interface SectionsLayoutProps {
   menu: boolean,
   handleMenu: () => void
 }
-type Section = {
-  id: number
-  url: string
-  title: string
-}
+
 
 const SectionsLayout = (props: SectionsLayoutProps) => {
   const { data: sections } = useQuery('sections', async () => {
