@@ -6,23 +6,20 @@ import sessionMiddleware from '../../utils/sessionMiddleware'
 // extends IncomingMessage
 
 
-declare module 'next' {
-  export interface NextApiRequest {
-    session: {
-      userId: number
-    };
-  }
-}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await sessionMiddleware(req, res)
-  const user = getUser(req.body.username)
-  if (user) {
-    const { password, ...rest } = user
-    req.session.userId = user.id
-    res.send(rest)
-  } else {
-    res.status(404).json({ password: 'Wrong password or user doesn`t exist' })
+  try {
+    await sessionMiddleware(req, res)
+    const user = getUser(req.body.username)
+    if (user) {
+      const { password, ...rest } = user
+      // req.session.userId = user.id
+      res.send(rest)
+    } else {
+      res.status(404).json({ password: 'Wrong password or user doesn`t exist' })
+    }
+  } catch (err) {
+    res.status(500).end()
   }
 }
 
