@@ -3,7 +3,6 @@ import { getUser } from "../../data/users";
 import { sleep } from "../../utils/sleep";
 import sessionMiddleware from '../../utils/sessionMiddleware'
 
-// extends IncomingMessage
 
 
 
@@ -13,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const user = getUser(req.body.username)
     if (user) {
       const { password, ...rest } = user
-      // req.session.userId = user.id
+      req.session.userId = user.id
       res.send(rest)
     } else {
       res.status(404).json({ password: 'Wrong password or user doesn`t exist' })
