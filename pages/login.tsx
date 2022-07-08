@@ -87,7 +87,7 @@ export default function Login() {
             onSubmit={async (values, { setErrors }) => {
               try {
                 await mutateAsync(values)
-                router.push('/')
+                await router.push('/')
               } catch (err) {
                 if (err instanceof AxiosError) {
                   setErrors(err?.response?.data)
