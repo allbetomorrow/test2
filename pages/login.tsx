@@ -65,7 +65,7 @@ const MyTextInput = ({ label, ...props }: MyTextInputProps) => {
 export default function Login() {
   const router = useRouter()
   const client = useQueryClient()
-  const { mutateAsync } = useMutation(async (data: { username: string, password: string }) => {
+  const { data, mutateAsync } = useMutation(async (data: { username: string, password: string }) => {
     const res = await axios.post('/api/login', data, { withCredentials: true })
     return userSchema.parse(res.data)
   }, {
@@ -73,6 +73,12 @@ export default function Login() {
       client.setQueryData('me', result)
     }
   })
+  useEffect(() => {
+    if (data) {
+      router.push('/')
+    }
+  }, [router, data])
+
   return (
     <Wrapper>
       <div className="flex h-full items-center">
@@ -87,7 +93,6 @@ export default function Login() {
             onSubmit={async (values, { setErrors }) => {
               try {
                 await mutateAsync(values)
-                await router.push('/')
               } catch (err) {
                 if (err instanceof AxiosError) {
                   setErrors(err?.response?.data)
