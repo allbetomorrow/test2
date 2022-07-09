@@ -8,6 +8,7 @@ import sessionMiddleware from '../../utils/sessionMiddleware'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
+    await sleep(2000)
     await sessionMiddleware(req, res)
     const user = getUser(req.body.username)
     if (user) {

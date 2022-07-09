@@ -5,13 +5,18 @@ import { getUser } from '../../data/users'
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await sessionMiddleware(req, res)
-  console.log(req.session)
-  const user = getUser(req.session.userId)
-  if (user) {
-    const { password, ...rest } = user
-    res.send(rest)
-  } else {
-    res.status(404).json({ password: 'Wrong password or user doesn`t exist' })
+  try {
+    await sleep(2000)
+    await sessionMiddleware(req, res)
+    console.log(req.session)
+    const user = getUser(req.session.userId)
+    if (user) {
+      const { password, ...rest } = user
+      res.send(rest)
+    } else {
+      res.status(404).json({ password: 'Unloged' })
+    }
+  } catch (err) {
+    res.status(500).end()
   }
 }

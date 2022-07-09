@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Formik, Form, useField } from 'formik';
 import { useRouter } from "next/router";
 import Wrapper from "../components/wrapper";
 import axios, { AxiosError } from "axios";
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { toFormikValidationSchema } from '../utils/zodAdapter'
 import { loginSchema, userSchema } from '../utils/zod'
+import { useIsUser } from "../utils/hooks"
+import LoadingProxy from "../components/loadingProxy";
 
 interface ButtonProps {
   isLoading?: boolean
@@ -63,9 +65,11 @@ const MyTextInput = ({ label, ...props }: MyTextInputProps) => {
 
 
 export default function Login() {
+  const { data, isFetched } = useIsUser('/')
+
   const router = useRouter()
   const client = useQueryClient()
-  const { data, mutateAsync } = useMutation(async (data: { username: string, password: string }) => {
+  const { mutateAsync } = useMutation(async (data: { username: string, password: string }) => {
     const res = await axios.post('/api/login', data, { withCredentials: true })
     return userSchema.parse(res.data)
   }, {
@@ -73,48 +77,50 @@ export default function Login() {
       client.setQueryData('me', result)
     }
   })
-  useEffect(() => {
-    if (data) {
-      router.push('/')
-    }
-  }, [router, data])
+  if (isFetched && !data) {
+    return (
+      <Wrapper>
+        <div className="flex h-full items-center">
+          <div className="flex flex-col items-center p-4 w-80 mx-auto border dark:bg-white border-purple-200 rounded-3xl shadow-lg">
+            <h1 className="text-2xl font-semibold  text-gray-900">Welcome back!</h1>
+            <Formik
+              initialValues={{
+                username: '',
+                password: ''
+              }}
+              validationSchema={toFormikValidationSchema(loginSchema)}
+              onSubmit={async (values, { setErrors }) => {
+                try {
+                  await mutateAsync(values)
+                  router.push("/")
+                } catch (err) {
+                  if (err instanceof AxiosError) {
+                    setErrors(err?.response?.data)
+                  } else {
+                    throw err
+                  }
+                }
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form className="flex flex-col items-center">
+
+                  <MyTextInput name="username" label="Username" type="text" />
+                  <MyTextInput name="password" label="Password" type="password" />
+                  <Button isLoading={isSubmitting} text="Sign in" type="submit" />
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
+
+      </Wrapper>
+    )
+  }
 
   return (
     <Wrapper>
-      <div className="flex h-full items-center">
-        <div className="flex flex-col items-center p-4 w-80 mx-auto border dark:bg-white border-purple-200 rounded-3xl shadow-lg">
-          <h1 className="text-2xl font-semibold  text-gray-900">Welcome back!</h1>
-          <Formik
-            initialValues={{
-              username: '',
-              password: ''
-            }}
-            validationSchema={toFormikValidationSchema(loginSchema)}
-            onSubmit={async (values, { setErrors }) => {
-              try {
-                await mutateAsync(values)
-              } catch (err) {
-                if (err instanceof AxiosError) {
-                  setErrors(err?.response?.data)
-                } else {
-                  throw err
-                }
-              }
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form className="flex flex-col items-center">
-
-                <MyTextInput name="username" label="Username" type="text" />
-                <MyTextInput name="password" label="Password" type="password" />
-                <Button isLoading={isSubmitting} text="Sign in" type="submit" />
-              </Form>
-            )}
-          </Formik>
-        </div>
-      </div>
-
+      <LoadingProxy />
     </Wrapper>
-
   )
 }

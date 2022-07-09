@@ -1,22 +1,22 @@
 import React from "react";
 import Task from "./task";
 import { useRouter } from "next/router";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import axios from "axios";
-import { isServer } from "../utils/isServer";
+
 
 
 const TaskLayout = () => {
   const router = useRouter()
   const slug = router.query.slug as string
+
   const { data: tasks } = useQuery(['tasks', slug], async () => {
     if (slug) {
       const res = await axios.post('/api/tasks', { url: slug }, { withCredentials: true })
       return res.data as Task[]
     }
   })
-  const client = useQueryClient()
-  console.log(client)
+
   if (!tasks) {
     return <div>Loading...</div>
   }

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 import axios from 'axios'
 import { userSchema } from '../utils/zod'
+import { useIsUser } from '../utils/hooks'
 
 type LayoutProps = {
   children: ReactNode
@@ -14,22 +15,26 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter()
+  const { data, isFetched } = useIsUser()
 
-  const { data, isLoading } = useQuery('me', async () => {
-    const res = await axios.get('/api/user', { withCredentials: true })
-    return userSchema.parse(res.data)
-  })
+  // const { data, isLoading, } = useQuery('me', async () => {
+  //   const res = await axios.get('/api/user', { withCredentials: true })
+  //   return userSchema.parse(res.data)
+  // })
+
+  useEffect(() => {
+    if (isFetched && !data) {
+      router.push('/login')
+    }
+  }, [isFetched, data, router])
 
 
-  if (!isLoading && !data) {
-    router.replace('/login')
-  }
-
-
-  if (isLoading || !data) {
-    return <Wrapper>
-      <LoadingProxy />
-    </Wrapper>
+  if (!isFetched || !data) {
+    return (
+      <Wrapper>
+        <LoadingProxy />
+      </Wrapper>
+    )
   }
 
   return (
