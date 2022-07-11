@@ -5,6 +5,7 @@ import type { ReactElement, ReactNode } from 'react'
 import useIsomorphicLayoutEffect from '../utils/useIsomorphicLayoutEffect'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

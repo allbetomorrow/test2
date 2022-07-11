@@ -7,12 +7,9 @@ import { userSchema } from "./zod";
 export const useIsUser = (redirect?: string) => {
   const router = useRouter()
   const { data, isFetched } = useQuery('me', async () => {
-    try {
-      const res = await axios.get('/api/user', { withCredentials: true })
-      return userSchema.parse(res.data)
-    } catch (err) {
-      console.log('unloged')
-    }
+    const res = await axios.get('/api/user', { withCredentials: true })
+    return userSchema.parse(res.data)
+
   }, {
     onSuccess: () => {
       if (redirect) {

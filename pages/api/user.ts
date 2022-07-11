@@ -9,13 +9,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await sleep(2000)
     await sessionMiddleware(req, res)
     console.log(req.session)
-    const user = getUser(req.session.userId)
-    if (user) {
-      const { password, ...rest } = user
-      res.send(rest)
-    } else {
-      res.status(404).json({ password: 'Unloged' })
+    if (req.session.userId) {
+      const user = getUser(req.session.userId)
+      if (user) {
+        const { password, ...rest } = user
+        res.send(rest)
+      } else {
+        res.status(401).json('invalid cookie')
+      }
     }
+    res.status(401).json('unauthorized')
+
   } catch (err) {
     res.status(500).end()
   }

@@ -65,7 +65,6 @@ const MyTextInput = ({ label, ...props }: MyTextInputProps) => {
 
 
 export default function Login() {
-  const { data, isFetched } = useIsUser('/')
 
   const router = useRouter()
   const client = useQueryClient()
@@ -77,50 +76,41 @@ export default function Login() {
       client.setQueryData('me', result)
     }
   })
-  if (isFetched && !data) {
-    return (
-      <Wrapper>
-        <div className="flex h-full items-center">
-          <div className="flex flex-col items-center p-4 w-80 mx-auto border dark:bg-white border-purple-200 rounded-3xl shadow-lg">
-            <h1 className="text-2xl font-semibold  text-gray-900">Welcome back!</h1>
-            <Formik
-              initialValues={{
-                username: '',
-                password: ''
-              }}
-              validationSchema={toFormikValidationSchema(loginSchema)}
-              onSubmit={async (values, { setErrors }) => {
-                try {
-                  await mutateAsync(values)
-                  router.push("/")
-                } catch (err) {
-                  if (err instanceof AxiosError) {
-                    setErrors(err?.response?.data)
-                  } else {
-                    throw err
-                  }
-                }
-              }}
-            >
-              {({ isSubmitting }) => (
-                <Form className="flex flex-col items-center">
-
-                  <MyTextInput name="username" label="Username" type="text" />
-                  <MyTextInput name="password" label="Password" type="password" />
-                  <Button isLoading={isSubmitting} text="Sign in" type="submit" />
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-
-      </Wrapper>
-    )
-  }
-
   return (
     <Wrapper>
-      <LoadingProxy />
+      <div className="flex h-full items-center">
+        <div className="flex flex-col items-center p-4 w-80 mx-auto border dark:bg-white border-purple-200 rounded-3xl shadow-lg">
+          <h1 className="text-2xl font-semibold  text-gray-900">Welcome back!</h1>
+          <Formik
+            initialValues={{
+              username: '',
+              password: ''
+            }}
+            validationSchema={toFormikValidationSchema(loginSchema)}
+            onSubmit={async (values, { setErrors }) => {
+              try {
+                await mutateAsync(values)
+                await router.push("/")
+              } catch (err) {
+                if (err instanceof AxiosError) {
+                  setErrors(err?.response?.data)
+                } else {
+                  throw err
+                }
+              }
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form className="flex flex-col items-center">
+
+                <MyTextInput name="username" label="Username" type="text" />
+                <MyTextInput name="password" label="Password" type="password" />
+                <Button isLoading={isSubmitting} text="Sign in" type="submit" />
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </div>
     </Wrapper>
   )
 }
