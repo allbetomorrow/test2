@@ -74,6 +74,7 @@ export default function Login() {
   }, {
     onSuccess: (result) => {
       client.setQueryData('me', result)
+      router.push('/')
     }
   })
   return (
@@ -90,7 +91,6 @@ export default function Login() {
             onSubmit={async (values, { setErrors }) => {
               try {
                 await mutateAsync(values)
-                await router.push("/")
               } catch (err) {
                 if (err instanceof AxiosError) {
                   setErrors(err?.response?.data)
