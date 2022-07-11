@@ -14,7 +14,7 @@ const sessionMiddleware = initMiddleware(session({
   resave: false,
   proxy: true,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 365,
+    maxAge: 1000 * 60 * 60 * 24,
     httpOnly: true,
     path: '/',
     sameSite: "lax",
