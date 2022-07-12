@@ -22,7 +22,7 @@ const LightDarkMode = () => {
     localStorage.removeItem("theme")
   }
   return (
-    <div className="cursor-pointer absolute right-2 top-3 inline-grid select-none place-content-center">
+    <div className="cursor-pointer inline-grid select-none place-content-center">
 
       <input type="checkbox" checked={dark ? true : false} onChange={dark ? handleTransitionLight : handleTransitionDark} className="peer appearance-none opacity-25 w-8 h-8 z-10 col-start-1 row-start-1" />
 

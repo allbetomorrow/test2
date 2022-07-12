@@ -4,8 +4,10 @@ import Wrapper from './wrapper'
 import Head from 'next/head'
 import LoadingProxy from '../components/loadingProxy'
 import { useRouter } from 'next/router'
-import { useIsUser } from '../utils/hooks'
 import LightDarkMode from './light-DarkMode'
+import { useQuery } from 'react-query'
+import axios from 'axios'
+import { userSchema } from '../utils/zod'
 
 type LayoutProps = {
   children: ReactNode
@@ -13,14 +15,17 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   const router = useRouter()
-  const { data, isFetched } = useIsUser()
-
-  useEffect(() => {
-    if (isFetched && !data) {
+  const { data, error, isFetched } = useQuery('me', async () => {
+    const res = await axios.get('/api/user', { withCredentials: true })
+    console.log(res)
+    if (res.data) {
+      return userSchema.parse(res.data)
+    } else {
       router.push('/welcome')
     }
-  }, [isFetched, data, router])
-
+  }, {
+    retry: 0
+  })
 
   if (isFetched && data) {
     return (
@@ -29,11 +34,12 @@ export default function Layout({ children }: LayoutProps) {
           <title>Notes</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
-        <LightDarkMode />
+
         <SideBar />
-        <main className='max-w-5xl w-full mx-auto'>
+        <main className='max-w-4xl mt-5 px-3 sm:px-6 w-full mx-auto'>
           {children}
         </main>
+
       </Wrapper>
     )
   }

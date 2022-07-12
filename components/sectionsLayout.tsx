@@ -18,12 +18,12 @@ const SectionsLayout = (props: SectionsLayoutProps) => {
 
   return (
     <div
-      className={`flex dark:bg-dark-main pt-16
-        bg-light-main dark:border-r-dark-th dark:rounded-r-lg
+      className={`flex dark:bg-dark-main pt-16 dark:bg-opacity-70
+        bg-light-main dark:border-r-custom-main dark:rounded-r-lg
         flex-col h-full z-10 items-center fixed top-0 left-0 overflow-x-hidden duration-500
-        ${props.menu ? "w-full dark:border-r-4" : "w-0 dark:border-r-0"}`}
+        ${props.menu ? "w-full  dark:border-r-4" : "w-0 dark:border-r-0"}`}
     >
-      <button className="sm:hidden absolute top-2 right-2" onClick={props.handleMenu}>
+      <button className="absolute top-2 right-2" onClick={props.handleMenu}>
         <svg
           className="stroke-light-sec fill-light-sec dark:stroke-dark-sec dark:fill-dark-sec w-10 h-10"
           xmlns="http://www.w3.org/2000/svg"

@@ -12,9 +12,11 @@ module.exports = {
           "sec": "#0f172a"
         },
         "dark": {
-          "main": "#1e293b",
+          "main": "#0f172a",
           "sec": "#fff7ed",
-          "th": "#6d28d9",
+        },
+        "custom": {
+          "main": "#6d28d9"
         }
       },
       transitionProperty: {

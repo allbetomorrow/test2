@@ -63,7 +63,7 @@ const Task = ({ task }: TaskProps) => {
     >
       {({ isSubmitting, values }) => (
 
-        <Form className="flex flex-col border max-w-lg rounded p-2 mb-3 border-dark-th">
+        <Form className="flex flex-col border rounded p-2 mb-3 border-dark-th">
 
           <FieldWrapper dispatch={() => dispatch({ type: "titleActive" })} isActive={state.titleActive}>
             {state.titleActive

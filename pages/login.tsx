@@ -65,9 +65,9 @@ const MyTextInput = ({ label, ...props }: MyTextInputProps) => {
 
 
 export default function Login() {
-
   const router = useRouter()
   const client = useQueryClient()
+
   const { mutateAsync } = useMutation(async (data: { username: string, password: string }) => {
     const res = await axios.post('/api/login', data, { withCredentials: true })
     return userSchema.parse(res.data)
