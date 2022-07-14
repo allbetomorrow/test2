@@ -1,14 +1,19 @@
-import React, { useState } from "react"
+import React from "react"
 import LightDarkMode from "./light-DarkMode"
-import SectionsLayout from "./sectionsLayout"
 
-const SideBar = () => {
-  const [menu, setMenu] = useState(false)
-  const handleMenu = () => setMenu(!menu)
+interface SideBarProps {
+  handleMenu: () => void
+}
+
+const SideBar = ({ handleMenu }: SideBarProps) => {
+
   return (
-    <div className="w-full py-2 px-4 dark:bg-slate-800 bg-light-main">
-      <div className="flex mx-auto max-w-5xl justify-between items-center">
-        <button className="flex items-center" onClick={handleMenu}>
+    <div className="w-full py-2 px-4 dark:bg-slate-800 bg-light-main border-custom-main md:border-b-2 md:px-2">
+      <div className="flex mx-auto max-w-5xl justify-between items-center  md:justify-end">
+        <button
+          className="flex items-center md:hidden"
+          onClick={handleMenu}
+        >
           <svg
             className="stroke-light-sec dark:stroke-dark-sec w-10 h-10"
             xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +24,6 @@ const SideBar = () => {
         </button>
         <LightDarkMode />
       </div>
-      <SectionsLayout menu={menu} handleMenu={handleMenu} />
     </div>
   )
 }

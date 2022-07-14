@@ -6,7 +6,7 @@ import { getUser } from '../../data/users'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    await sleep(2000)
+    // await sleep(2000)
     await sessionMiddleware(req, res)
     console.log(req.session)
     if (req.session.userId) {

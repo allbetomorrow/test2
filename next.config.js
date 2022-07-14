@@ -12,7 +12,7 @@ const nextConfig = {
             key: 'qid'
           }
         ],
-        permanent: false,
+        permanent: true,
         destination: '/'
       },
       {
@@ -23,7 +23,7 @@ const nextConfig = {
             key: 'qid'
           }
         ],
-        permanent: false,
+        permanent: true,
         destination: '/'
       }
     ]

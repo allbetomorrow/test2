@@ -10,7 +10,7 @@ interface SectionsLayoutProps {
 }
 
 
-const SectionsLayout = (props: SectionsLayoutProps) => {
+const SectionsLayout = ({ menu, handleMenu }: SectionsLayoutProps) => {
   const { data: sections } = useQuery('sections', async () => {
     const res = await axios.get('/api/sections', { withCredentials: true })
     return res.data as Section[]
@@ -18,12 +18,13 @@ const SectionsLayout = (props: SectionsLayoutProps) => {
 
   return (
     <div
-      className={`flex dark:bg-dark-main pt-16 dark:bg-opacity-70
-        bg-light-main dark:border-r-custom-main dark:rounded-r-lg
-        flex-col h-full z-10 items-center fixed top-0 left-0 overflow-x-hidden duration-500
-        ${props.menu ? "w-full  dark:border-r-4" : "w-0 dark:border-r-0"}`}
+      className={`flex flex-col items-center h-full z-10 pt-16 fixed top-0 left-0
+      dark:bg-dark-main bg-light-main dark:border-r-custom-main dark:rounded-r-lg dark:md:bg-slate-800
+        md:relative md:w-full md:border-none md:transition-none md:pt-8
+        overflow-x-hidden duration-500 
+        ${menu ? "w-full  dark:border-r-4" : "w-0 dark:border-r-0"}`}
     >
-      <button className="absolute top-2 right-2" onClick={props.handleMenu}>
+      <button className="md:hidden absolute top-2 right-2" onClick={handleMenu}>
         <svg
           className="stroke-light-sec fill-light-sec dark:stroke-dark-sec dark:fill-dark-sec w-10 h-10"
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +36,7 @@ const SectionsLayout = (props: SectionsLayoutProps) => {
       {sections && !isServer
         ?
         <div className="flex flex-col items-center">
-          {sections.map(sec => <Section key={sec.id} section={sec} handleMenu={props.handleMenu} />)}
+          {sections.map(sec => <Section key={sec.id} section={sec} handleMenu={handleMenu} />)}
         </div>
         :
         <div className="text-2xl duration-200 pt-1 text-light-sec dark:text-dark-sec">Loading...</div>
